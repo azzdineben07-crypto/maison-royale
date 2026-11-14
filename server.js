@@ -18,24 +18,26 @@ if (!process.env.ADMIN_PASSWORD || !process.env.SESSION_SECRET) {
     process.exit(1);
 }
 
-if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    console.error("ERROR: Gmail configuration is missing in .env");
-    process.exit(1);
-}
-
 const SESSION_SECRET = process.env.SESSION_SECRET;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 const COOKIE_NAME = "mr_admin_session";
 const SESSION_DURATION = 8 * 60 * 60 * 1000;
 
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD
-    }
-});
+const transporter =
+    process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD
+        ? nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_APP_PASSWORD
+            }
+        })
+        : null;
+
+if (!transporter) {
+    console.log("Email service disabled.");
+}
 
 app.disable("x-powered-by");
 app.use(express.json({ limit: "20kb" }));
@@ -650,6 +652,15 @@ app.put("/api/reservations/:id/status", requireAdmin, async (req, res) => {
             (status === "Cancelled" && previousStatus !== "Cancelled");
 
         if (shouldSendEmail) {
+            if (!transporter) {
+    console.log("Email skipped: Gmail is not configured.");
+
+    return res.json({
+        success: true,
+        emailSent: false,
+        message: "Statut mis à jour. Email désactivé sur ce serveur."
+    });
+}
             try {
                 const isConfirmed = status === "Confirmed";
 
