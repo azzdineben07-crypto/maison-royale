@@ -1,0 +1,605 @@
+/* =========================
+   1. GLOBAL SETTINGS
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+:root {
+    --gold: #c9a45c;
+    --dark: #151512;
+    --dark-light: #22221d;
+    --cream: #f5f0e7;
+    --white: #ffffff;
+    --gray: #aaa69e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--cream);
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+}
+
+section {
+    padding: 100px 8%;
+}
+
+/* =========================
+   2. HEADER
+========================= */
+
+.header {
+    width: 100%;
+    min-height: 85px;
+    padding: 20px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    background: rgba(21, 21, 18, 0.96);
+    border-bottom: 1px solid rgba(201, 164, 92, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+.navbar {
+    display: flex;
+    gap: 25px;
+}
+
+.navbar a {
+    color: var(--gray);
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: var(--gold);
+}
+
+.header-btn {
+    padding: 11px 22px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    transition: 0.3s;
+}
+
+.header-btn:hover {
+    background: var(--gold);
+    color: var(--dark);
+}
+
+/* =========================
+   3. HERO
+========================= */
+
+.hero {
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    background:
+        linear-gradient(90deg, rgba(15,15,13,.95), rgba(15,15,13,.45)),
+        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4')
+        center/cover no-repeat;
+}
+
+.hero-content {
+    max-width: 650px;
+    animation: fadeUp 1s ease;
+}
+
+.subtitle {
+    color: var(--gold);
+    letter-spacing: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1.15;
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    color: var(--gold);
+}
+
+.hero-content > p:not(.subtitle) {
+    color: #d0cbc2;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn,
+.btn-secondary {
+    display: inline-block;
+    padding: 14px 25px;
+    font-weight: 600;
+    border: 1px solid var(--gold);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.btn {
+    background: var(--gold);
+    color: var(--dark);
+}
+
+.btn:hover {
+    background: transparent;
+    color: var(--gold);
+}
+
+.btn-secondary {
+    color: var(--cream);
+}
+
+.btn-secondary:hover {
+    background: var(--gold);
+    color: var(--dark);
+}
+
+/* =========================
+   4. SECTION TITLES
+========================= */
+
+.section-title {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section-title p {
+    color: var(--gold);
+    letter-spacing: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 45px);
+    color: var(--cream);
+}
+
+/* =========================
+   5. ABOUT
+========================= */
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 55px;
+}
+
+.about-image img {
+    height: 430px;
+    border-radius: 5px;
+}
+
+.about-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 35px;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    color: var(--gray);
+    margin-bottom: 30px;
+}
+
+/* =========================
+   6. MENU
+========================= */
+
+.menu {
+    background: var(--dark-light);
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.menu-card {
+    background: var(--dark);
+    overflow: hidden;
+    transition: 0.4s;
+    border: 1px solid rgba(201, 164, 92, 0.15);
+}
+
+.menu-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+}
+
+.menu-card img {
+    height: 240px;
+    transition: 0.5s;
+}
+
+.menu-card:hover img {
+    transform: scale(1.05);
+}
+
+.menu-info {
+    padding: 25px;
+}
+
+.menu-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.menu-info p {
+    color: var(--gray);
+    margin-bottom: 15px;
+}
+
+.menu-info span {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+/* =========================
+   7. GALLERY
+========================= */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.gallery-grid img {
+    height: 280px;
+    border-radius: 4px;
+    transition: 0.4s;
+    filter: brightness(0.8);
+}
+
+.gallery-grid img:hover {
+    filter: brightness(1);
+    transform: scale(1.03);
+}
+
+/* =========================
+   8. RESERVATION
+========================= */
+
+.reservation {
+    background: var(--dark-light);
+}
+
+.reservation form {
+    max-width: 750px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.reservation input,
+.reservation select,
+.reservation textarea {
+    width: 100%;
+    padding: 16px;
+    background: var(--dark);
+    color: var(--cream);
+    border: 1px solid #45443d;
+    outline: none;
+    font-family: inherit;
+    border-radius: 3px;
+}
+
+.reservation input:focus,
+.reservation select:focus,
+.reservation textarea:focus {
+    border-color: var(--gold);
+}
+
+.reservation textarea {
+    grid-column: 1 / -1;
+    min-height: 120px;
+    resize: vertical;
+}
+
+.reservation form button {
+    grid-column: 1 / -1;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+/* =========================
+   9. FOOTER
+========================= */
+
+.footer {
+    padding: 55px 8%;
+    text-align: center;
+    background: #10100e;
+    border-top: 1px solid rgba(201, 164, 92, 0.2);
+}
+
+.footer h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.footer p {
+    color: var(--gray);
+    font-size: 14px;
+    margin: 7px 0;
+}
+
+/* =========================
+   10. ANIMATIONS
+========================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   11. RESPONSIVE TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =========================
+   12. RESPONSIVE MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    section {
+        padding: 75px 6%;
+    }
+
+    .header {
+        padding: 15px 5%;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .navbar {
+        gap: 12px;
+    }
+
+    .navbar a {
+        font-size: 12px;
+    }
+
+    .header-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .hero {
+        min-height: 570px;
+        background-position: center;
+    }
+
+    .hero h1 {
+        font-size: 43px;
+    }
+
+    .menu-grid,
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-image img {
+        height: 300px;
+    }
+
+    .about-text h3 {
+        font-size: 28px;
+    }
+
+    .gallery-grid img {
+        height: 250px;
+    }
+
+    .reservation form {
+        grid-template-columns: 1fr;
+    }
+
+    .reservation textarea,
+    .reservation form button {
+        grid-column: auto;
+    }
+}
+.search-input {
+    width: 100%;
+    max-width: 450px;
+    padding: 14px 18px;
+    margin-top: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    background: #fafafa;
+    transition: 0.3s;
+}
+
+.search-input:focus {
+    border-color: #b38b42;
+    box-shadow: 0 0 0 3px rgba(179, 139, 66, 0.12);
+}
+/* =========================
+   13. MOBILE IMPROVEMENTS
+========================= */
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+@media (max-width: 600px) {
+
+    .header {
+        gap: 12px;
+        position: sticky;
+        padding: 14px 5%;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px 16px;
+    }
+
+    .navbar a {
+        font-size: 13px;
+    }
+
+    .header-btn {
+        display: inline-block;
+        text-align: center;
+    }
+
+    .hero {
+        min-height: 520px;
+        padding: 65px 6%;
+        background-position: center;
+    }
+
+    .hero h1 {
+        font-size: clamp(36px, 10vw, 43px);
+    }
+
+    .hero-content > p:not(.subtitle) {
+        font-size: 14px;
+    }
+
+    .subtitle {
+        font-size: 11px;
+        letter-spacing: 3px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-buttons a {
+        text-align: center;
+    }
+
+    .section-title {
+        margin-bottom: 35px;
+    }
+
+    .menu-grid,
+    .gallery-grid {
+        gap: 20px;
+    }
+
+    .menu-card img {
+        height: 220px;
+    }
+
+    .reservation input,
+    .reservation select,
+    .reservation textarea {
+        font-size: 16px;
+    }
+
+    .search-input {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .about-content {
+        gap: 30px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

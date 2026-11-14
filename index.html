@@ -1,0 +1,1066 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11110f">
+  <meta name="description" content="Maison Royale Marrakech — Découvrez une expérience gastronomique d'exception et réservez votre table.">
+  <title>Maison Royale | Fine Dining Marrakech</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+
+  <style>
+    :root {
+      --dark: #11110f;
+      --dark-soft: #1c1b18;
+      --gold: #c6a56c;
+      --gold-light: #e6d2aa;
+      --cream: #f7f4ed;
+      --white: #fff;
+      --text: #292721;
+      --muted: #888276;
+      --line: rgba(198,165,108,.25);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    button, input, select, textarea { font: inherit; }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .header {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 86px;
+      padding: 0 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      background: rgba(17,17,15,.94);
+      border-bottom: 1px solid rgba(198,165,108,.16);
+      backdrop-filter: blur(15px);
+      transition: .3s ease;
+    }
+
+    .logo {
+      font-family: var(--serif);
+      color: white;
+      font-size: 27px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .logo span { color: var(--gold); }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: clamp(15px, 2.5vw, 35px);
+    }
+
+    .navbar a {
+      position: relative;
+      color: #d5d0c5;
+      font-size: 11px;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      transition: color .25s;
+    }
+
+    .navbar a::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width .25s;
+    }
+
+    .navbar a:hover { color: var(--gold-light); }
+    .navbar a:hover::after { width: 100%; }
+
+    .header-btn {
+      padding: 13px 22px;
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: .3s;
+      white-space: nowrap;
+    }
+
+    .header-btn:hover {
+      color: var(--dark);
+      background: var(--gold);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 760px;
+      height: 100vh;
+      max-height: 1000px;
+      display: flex;
+      align-items: center;
+      padding: 140px 10% 90px;
+      color: white;
+      background:
+        linear-gradient(90deg, rgba(10,10,9,.88) 0%, rgba(10,10,9,.62) 48%, rgba(10,10,9,.13) 100%),
+        linear-gradient(0deg, rgba(10,10,9,.48), transparent 45%),
+        url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2200&q=90") center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 720px;
+      animation: reveal .9s ease both;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--gold-light);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 35px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      margin: 25px 0 23px;
+      font-family: var(--serif);
+      font-size: clamp(62px, 8vw, 112px);
+      font-weight: 400;
+      line-height: .91;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .hero-description {
+      max-width: 470px;
+      color: #dedbd4;
+      font-size: 14px;
+      line-height: 2;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-top: 38px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 53px;
+      padding: 0 27px;
+      border: 1px solid var(--gold);
+      background: var(--gold);
+      color: #171511;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+      transition: .3s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      color: white;
+      background: transparent;
+      transform: translateY(-3px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      min-height: 53px;
+      padding: 0 23px;
+      border: 1px solid rgba(255,255,255,.4);
+      color: white;
+      font-size: 10px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      transition: .3s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    .hero-bottom {
+      position: absolute;
+      right: 7%;
+      bottom: 35px;
+      color: rgba(255,255,255,.7);
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .section {
+      padding: 115px 9%;
+    }
+
+    .section-heading {
+      margin-bottom: 55px;
+      text-align: center;
+    }
+
+    .section-heading .eyebrow {
+      justify-content: center;
+      color: #9b7845;
+    }
+
+    .section-heading h2 {
+      margin-top: 13px;
+      font-family: var(--serif);
+      font-size: clamp(42px, 5vw, 65px);
+      font-weight: 500;
+      line-height: 1.05;
+    }
+
+    .section-heading > p:last-child {
+      max-width: 510px;
+      margin: 16px auto 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .about {
+      background: var(--cream);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 85px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .about-image {
+      position: relative;
+      min-height: 520px;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+    }
+
+    .about-image::after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      right: -20px;
+      bottom: -20px;
+      left: 20px;
+      z-index: -1;
+      border: 1px solid var(--gold);
+    }
+
+    .about-copy .eyebrow {
+      color: #a17c42;
+    }
+
+    .about-copy h3 {
+      margin: 20px 0;
+      font-family: var(--serif);
+      font-size: clamp(38px, 4vw, 57px);
+      font-weight: 500;
+      line-height: 1.04;
+    }
+
+    .about-copy h3 em {
+      color: #a7834b;
+      font-weight: 400;
+    }
+
+    .about-copy p {
+      margin-bottom: 17px;
+      color: #777167;
+      font-size: 13px;
+      line-height: 2.1;
+    }
+
+    .about-copy .btn { margin-top: 15px; }
+
+    .menu-section {
+      background: #eeebe3;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 25px;
+      max-width: 1250px;
+      margin: auto;
+    }
+
+    .menu-card {
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 12px 35px rgba(25,22,15,.055);
+      transition: transform .35s, box-shadow .35s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 22px 48px rgba(25,22,15,.11);
+    }
+
+    .menu-image {
+      position: relative;
+      height: 290px;
+      overflow: hidden;
+    }
+
+    .menu-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s;
+    }
+
+    .menu-card:hover .menu-image img {
+      transform: scale(1.07);
+    }
+
+    .menu-info {
+      padding: 28px 26px 30px;
+    }
+
+    .menu-number {
+      color: #a7834b;
+      font-size: 9px;
+      letter-spacing: 2px;
+    }
+
+    .menu-info h3 {
+      margin: 11px 0 9px;
+      font-family: var(--serif);
+      font-size: 33px;
+      font-weight: 500;
+    }
+
+    .menu-info p {
+      min-height: 44px;
+      color: #858077;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .menu-info span {
+      display: inline-block;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #e9e2d6;
+      color: #a17c42;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .experience {
+      position: relative;
+      padding: 120px 9%;
+      color: white;
+      text-align: center;
+      background:
+        linear-gradient(rgba(13,13,12,.82), rgba(13,13,12,.85)),
+        url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2000&q=85") center/cover fixed;
+    }
+
+    .experience .eyebrow { justify-content: center; }
+    .experience h2 {
+      max-width: 780px;
+      margin: 23px auto 20px;
+      font-family: var(--serif);
+      font-size: clamp(43px, 6vw, 76px);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .experience p {
+      max-width: 550px;
+      margin: auto;
+      color: #d2cec5;
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    .experience .btn { margin-top: 33px; }
+
+    .gallery {
+      background: var(--cream);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr 1fr;
+      grid-template-rows: 260px;
+      gap: 16px;
+      max-width: 1250px;
+      margin: auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s;
+    }
+
+    .gallery-item:hover img { transform: scale(1.07); }
+
+    .reservation {
+      position: relative;
+      padding: 115px 8%;
+      background: #eeebe3;
+    }
+
+    .reservation-wrap {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      max-width: 1100px;
+      margin: auto;
+      background: white;
+      box-shadow: 0 25px 70px rgba(30,26,18,.09);
+    }
+
+    .reservation-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 55px 43px;
+      color: white;
+      background:
+        linear-gradient(rgba(17,17,15,.88), rgba(17,17,15,.92)),
+        url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80") center/cover;
+    }
+
+    .reservation-info .eyebrow { color: var(--gold-light); }
+
+    .reservation-info h3 {
+      margin: 20px 0;
+      font-family: var(--serif);
+      font-size: 45px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .reservation-info p {
+      color: #c9c4ba;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .reservation-detail {
+      margin-top: 32px;
+      padding-top: 23px;
+      border-top: 1px solid rgba(198,165,108,.35);
+      color: var(--gold-light);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      line-height: 2;
+      text-transform: uppercase;
+    }
+
+    .reservation-form-wrap {
+      padding: 48px 42px;
+    }
+
+    .reservation-form-wrap h3 {
+      margin-bottom: 8px;
+      font-family: var(--serif);
+      font-size: 37px;
+      font-weight: 500;
+    }
+
+    .form-intro {
+      margin-bottom: 28px;
+      color: #8b857b;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    #reservation-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    #reservation-form input,
+    #reservation-form select,
+    #reservation-form textarea {
+      width: 100%;
+      min-height: 49px;
+      padding: 13px 14px;
+      border: 1px solid #e8e3d9;
+      border-radius: 0;
+      outline: none;
+      color: #28251f;
+      background: #fbfaf7;
+      font-size: 11px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    #reservation-form input:focus,
+    #reservation-form select:focus,
+    #reservation-form textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(198,165,108,.12);
+    }
+
+    #reservation-form textarea {
+      grid-column: 1 / -1;
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    #reservation-form button {
+      grid-column: 1 / -1;
+      width: 100%;
+      margin-top: 3px;
+    }
+
+    .footer {
+      padding: 65px 8% 28px;
+      color: white;
+      background: var(--dark);
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 32px;
+      letter-spacing: 3px;
+    }
+
+    .footer-logo span { color: var(--gold); }
+
+    .footer-description {
+      margin: 12px 0 25px;
+      color: #aaa59a;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin-bottom: 35px;
+    }
+
+    .footer-links a {
+      color: #d2c9b9;
+      font-size: 10px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      padding-top: 23px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      color: #79766e;
+      font-size: 10px;
+      letter-spacing: .5px;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1050px) {
+      .header { padding: 0 4%; }
+      .navbar { gap: 15px; }
+      .navbar a { font-size: 9px; }
+      .about-grid { gap: 45px; }
+      .section { padding: 90px 6%; }
+      .reservation { padding: 90px 5%; }
+    }
+
+    @media (max-width: 780px) {
+      .header {
+        min-height: auto;
+        padding: 16px 5%;
+        flex-wrap: wrap;
+        gap: 13px;
+      }
+
+      .logo { font-size: 22px; }
+      .header-btn { padding: 10px 13px; font-size: 9px; }
+
+      .navbar {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        gap: 23px;
+        padding: 8px 0 4px;
+      }
+
+      .navbar a { white-space: nowrap; }
+
+      .hero {
+        min-height: 700px;
+        height: auto;
+        padding: 190px 7% 110px;
+        background-position: 57% center;
+      }
+
+      .hero h1 { font-size: clamp(59px, 12vw, 86px); }
+      .hero-description { font-size: 12px; }
+      .hero-bottom { right: 7%; font-size: 8px; }
+
+      .section { padding: 75px 7%; }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+
+      .about-image, .about-image img { min-height: 360px; height: 360px; }
+      .about-image { margin-right: 15px; }
+
+      .menu-grid { grid-template-columns: 1fr; gap: 22px; }
+      .menu-image { height: 270px; }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 210px 210px;
+      }
+
+      .gallery-item:first-child { grid-column: 1 / -1; }
+
+      .experience { padding: 85px 7%; background-attachment: scroll; }
+
+      .reservation { padding: 75px 5%; }
+
+      .reservation-wrap { grid-template-columns: 1fr; }
+      .reservation-info { padding: 40px 30px; }
+      .reservation-form-wrap { padding: 38px 25px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { min-height: 660px; }
+      .hero h1 { font-size: 60px; }
+      .hero-buttons { align-items: stretch; flex-direction: column; }
+      .hero-buttons a { width: 100%; }
+
+      .section-heading { margin-bottom: 38px; }
+      .section-heading h2 { font-size: 43px; }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 220px);
+      }
+
+      .gallery-item:first-child { grid-column: auto; }
+
+      #reservation-form { grid-template-columns: 1fr; }
+      #reservation-form textarea,
+      #reservation-form button { grid-column: auto; }
+
+      .reservation-form-wrap { padding: 30px 19px; }
+      .reservation-info { padding: 36px 24px; }
+      .footer-links { gap: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <a href="#home" class="logo">MAISON<span> ROYALE</span></a>
+
+    <nav class="navbar" aria-label="Navigation principale">
+      <a href="#home">Accueil</a>
+      <a href="#about">À propos</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Galerie</a>
+      <a href="#reservation">Réservation</a>
+    </nav>
+
+    <a href="#reservation" class="header-btn">Réserver une table</a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="eyebrow">Bienvenue chez Maison Royale</p>
+
+      <h1>
+        L'art de<br>
+        <span>la gastronomie.</span>
+      </h1>
+
+      <p class="hero-description">
+        Une adresse d'exception à Marrakech.
+        Découvrez une cuisine raffinée, des créations inspirées
+        et l'élégance d'un moment inoubliable.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#menu" class="btn">Découvrir le menu</a>
+        <a href="#about" class="btn-secondary">Notre histoire</a>
+      </div>
+    </div>
+
+    <div class="hero-bottom">Marrakech · Maroc · Fine Dining</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="about">
+    <div class="about-grid">
+      <div class="about-image">
+        <img
+          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1100&q=85"
+          alt="Une table gastronomique élégante"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="about-copy">
+        <p class="eyebrow">Notre histoire</p>
+
+        <h3>La passion du goût, <em>l'élégance du détail.</em></h3>
+
+        <p>
+          Chez Maison Royale, nous croyons que la gastronomie
+          est bien plus qu'un repas : c'est une expérience,
+          une émotion et un art de recevoir.
+        </p>
+
+        <p>
+          Chaque détail est pensé pour vous offrir un moment
+          exceptionnel, dans une atmosphère chaleureuse et raffinée.
+        </p>
+
+        <a href="#reservation" class="btn">Vivre l'expérience</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="section menu-section" id="menu">
+    <div class="section-heading">
+      <p class="eyebrow">Notre sélection</p>
+      <h2>Un voyage de saveurs</h2>
+      <p>
+        Des inspirations délicates, des ingrédients de qualité
+        et une passion pour l'excellence.
+      </p>
+    </div>
+
+    <div class="menu-grid">
+
+      <article class="menu-card">
+        <div class="menu-image">
+          <img
+            src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85"
+            alt="Entrée gastronomique"
+            loading="lazy"
+          >
+        </div>
+        <div class="menu-info">
+          <span class="menu-number">01 — POUR COMMENCER</span>
+          <h3>Entrées</h3>
+          <p>Des créations fraîches et délicates pour éveiller les sens.</p>
+          <span>À partir de 45 DH</span>
+        </div>
+      </article>
+
+      <article class="menu-card">
+        <div class="menu-image">
+          <img
+            src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=85"
+            alt="Plat principal gastronomique"
+            loading="lazy"
+          >
+        </div>
+        <div class="menu-info">
+          <span class="menu-number">02 — L'ART DU PLAT</span>
+          <h3>Plats principaux</h3>
+          <p>Des recettes généreuses où tradition et créativité se rencontrent.</p>
+          <span>À partir de 95 DH</span>
+        </div>
+      </article>
+
+      <article class="menu-card">
+        <div class="menu-image">
+          <img
+            src="https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85"
+            alt="Dessert raffiné"
+            loading="lazy"
+          >
+        </div>
+        <div class="menu-info">
+          <span class="menu-number">03 — LA NOTE SUCRÉE</span>
+          <h3>Desserts</h3>
+          <p>Une dernière touche de douceur pour prolonger le plaisir.</p>
+          <span>À partir de 35 DH</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience">
+    <p class="eyebrow">L'expérience Maison Royale</p>
+    <h2>Chaque instant mérite d'être exceptionnel.</h2>
+    <p>
+      Une ambiance élégante, un accueil attentionné et une cuisine
+      qui célèbre le plaisir de partager.
+    </p>
+    <a href="#reservation" class="btn">Réserver votre table</a>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section gallery" id="gallery">
+    <div class="section-heading">
+      <p class="eyebrow">Notre univers</p>
+      <h2>Un lieu, une atmosphère.</h2>
+      <p>Découvrez l'univers Maison Royale à travers quelques instants.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1100&q=85"
+          alt="Intérieur élégant du restaurant"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=85"
+          alt="Table dressée avec élégance"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="gallery-item">
+        <img
+          src="https://images.unsplash.com/photo-1515003197210-e0cd7184f8b5?auto=format&fit=crop&w=900&q=85"
+          alt="Cuisine gastronomique"
+          loading="lazy"
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVATION -->
+  <section class="reservation" id="reservation">
+    <div class="section-heading">
+      <p class="eyebrow">Votre table vous attend</p>
+      <h2>Réservez votre expérience</h2>
+      <p>Nous serons ravis de vous accueillir chez Maison Royale.</p>
+    </div>
+
+    <div class="reservation-wrap">
+      <div class="reservation-info">
+        <p class="eyebrow">Maison Royale</p>
+
+        <h3>Un moment<br>d'exception.</h3>
+
+        <p>
+          Préparez votre visite et laissez-nous prendre soin
+          de chaque détail de votre expérience.
+        </p>
+
+        <div class="reservation-detail">
+          MARRAKECH · MAROC<br>
+          L'ART DE RECEVOIR
+        </div>
+      </div>
+
+      <div class="reservation-form-wrap">
+        <h3>Votre réservation</h3>
+        <p class="form-intro">
+          Complétez les informations ci-dessous pour envoyer votre demande.
+        </p>
+
+        <form id="reservation-form">
+
+          <input
+            type="text"
+            name="name"
+            placeholder="Votre nom complet"
+            autocomplete="name"
+            maxlength="100"
+            required
+          >
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Votre adresse email"
+            autocomplete="email"
+            maxlength="150"
+            required
+          >
+
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Votre téléphone"
+            autocomplete="tel"
+            maxlength="30"
+            required
+          >
+
+          <input
+            type="date"
+            name="date"
+            aria-label="Date de réservation"
+            required
+          >
+
+          <input
+            type="time"
+            name="time"
+            aria-label="Heure de réservation"
+            required
+          >
+
+          <select name="guests" required>
+            <option value="">Nombre de personnes</option>
+            <option value="1">1 personne</option>
+            <option value="2">2 personnes</option>
+            <option value="3">3 personnes</option>
+            <option value="4">4 personnes</option>
+            <option value="5">5 personnes ou plus</option>
+          </select>
+
+          <textarea
+            name="message"
+            placeholder="Message ou demande particulière (facultatif)"
+            maxlength="1000"
+          ></textarea>
+
+          <button type="submit" class="btn">
+            Envoyer la demande
+          </button>
+
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">MAISON <span>ROYALE</span></div>
+
+    <p class="footer-description">
+      L'élégance du goût. L'art de recevoir.<br>
+      Une expérience culinaire à Marrakech.
+    </p>
+
+    <nav class="footer-links" aria-label="Navigation de pied de page">
+      <a href="#home">Accueil</a>
+      <a href="#about">À propos</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Galerie</a>
+      <a href="#reservation">Réservation</a>
+    </nav>
+
+    <div class="footer-bottom">
+      © 2026 Maison Royale. Tous droits réservés.
+    </div>
+  </footer>
+
+  <script>
+    // Empêche de sélectionner une date passée.
+    const reservationDate = document.querySelector(
+      '#reservation-form input[name="date"]'
+    );
+
+    if (reservationDate) {
+      const today = new Date();
+      const localToday = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+      ).toISOString().split('T')[0];
+
+      reservationDate.min = localToday;
+    }
+  </script>
+
+</body>
+</html>

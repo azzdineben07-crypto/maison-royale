@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison Royale | Admin Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f1eb;
+            color: #252525;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #171717;
+            color: white;
+            position: fixed;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            color: #d6b46a;
+            font-size: 23px;
+            margin-bottom: 50px;
+        }
+
+        .sidebar p {
+            padding: 15px;
+            background: #292929;
+            border-radius: 8px;
+        }
+
+        .main {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+        }
+
+        .status {
+            color: #23834e;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #00000008;
+        }
+
+        .stat-card p {
+            color: #777;
+            margin-bottom: 12px;
+        }
+
+        .stat-card h2 {
+            font-size: 30px;
+            color: #b38b42;
+        }
+
+        .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            padding: 16px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            color: #8d713d;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .delete-btn {
+            background: #ffe9e9;
+            color: #c0392b;
+            border: none;
+            padding: 9px 13px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+            color: white;
+        }
+
+        @media(max-width: 800px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+        .search-input {
+    width: 100%;
+    max-width: 450px;
+    padding: 14px 18px;
+    margin-top: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    background: #fafafa;
+    transition: 0.3s;
+}
+
+.search-input:focus {
+    border-color: #b38b42;
+    box-shadow: 0 0 0 3px rgba(179, 139, 66, 0.12);
+}
+.status-select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+}
+
+.status-select.pending {
+    background: #fff3cd;
+    color: #856404;
+    border-color: #ffe69c;
+}
+
+.status-select.confirmed {
+    background: #d1e7dd;
+    color: #0f5132;
+    border-color: #a3cfbb;
+}
+
+.status-select.cancelled {
+    background: #f8d7da;
+    color: #842029;
+    border-color: #f1aeb5;
+}
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <h2 class="logo">MAISON ROYALE</h2>
+        <p>▣ Dashboard</p>
+    </aside>
+
+    <main class="main">
+
+        <header class="header">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Gestion des réservations</p>
+            </div>
+
+            <span class="status">● Administration</span>
+        </header>
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <p>Total réservations</p>
+                <h2 id="totalReservations">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Total clients</p>
+                <h2 id="totalGuests">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Statut</p>
+                <h2 style="font-size:22px">Actif</h2>
+            </div>
+
+        </section>
+
+        <section class="table-container">
+
+            
+<div class="table-header">
+    <h2>Liste des réservations</h2>
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Rechercher par nom, email ou téléphone..."
+        class="search-input"
+    >
+</div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Personnes</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="reservationsTable">
+                    <tr>
+                        <td colspan="8">Chargement...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </section>
+
+    </main>
+
+    <script>
+        async function loadReservations() {
+            try {
+                const response = await fetch('/api/reservations');
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error('Erreur de chargement');
+                }
+
+                const reservations = data.reservations;
+
+                document.getElementById('totalReservations').textContent =
+                    reservations.length;
+
+                const totalGuests = reservations.reduce(
+                    (total, reservation) => total + Number(reservation.guests),
+                    0
+                );
+
+                document.getElementById('totalGuests').textContent =
+                    totalGuests;
+
+                const table = document.getElementById('reservationsTable');
+
+                if (reservations.length === 0) {
+                    table.innerHTML = `
+                        <tr>
+                            <td colspan="8">Aucune réservation</td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                table.innerHTML = reservations.map(reservation => `
+                    <tr>
+                        <td>${reservation.id}</td>
+                        <td>${reservation.name}</td>
+                        <td>${reservation.email}</td>
+                        <td>${reservation.phone}</td>
+                        <td>${reservation.date}</td>
+                        <td>${reservation.time}</td>
+                        
+<td>${reservation.guests}</td>
+<td>
+   <select
+    class="status-select ${reservation.status.toLowerCase()}"
+    onchange="updateReservationStatus(${reservation.id}, this.value)">
+        <option value="Pending" ${reservation.status === "Pending" ? "selected" : ""}>Pending</option>
+        <option value="Confirmed" ${reservation.status === "Confirmed" ? "selected" : ""}>Confirmed</option>
+        <option value="Cancelled" ${reservation.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
+    </select>
+</td>
+<td>
+    <button class="delete-btn" 
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error(error);
+
+                document.getElementById('reservationsTable').innerHTML = `
+                    <tr>
+                        <td colspan="8">Erreur de chargement des réservations</td>
+                    </tr>
+                `;
+            }
+        }
+
+async function updateReservationStatus(id, status) {
+    try {
+        const response = await fetch(
+            `/api/reservations/${id}/status`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ status })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Erreur de mise à jour");
+        }
+
+        console.log("Status updated:", status);
+
+    } catch (error) {
+        console.error(error);
+        alert("Erreur : " + error.message);
+        await loadReservations();
+    }
+}
+
+
+async function deleteReservation(id) {
+    const confirmation = confirm(
+        "Voulez-vous vraiment supprimer cette réservation ?"
+    );
+
+    if (!confirmation) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `/api/reservations/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Erreur de suppression");
+        }
+
+        alert("Réservation supprimée avec succès !");
+
+        await loadReservations();
+
+    } catch (error) {
+        console.error(error);
+        alert("Erreur : " + error.message);
+    }
+}
+document.getElementById("searchInput").addEventListener("input", function () {
+    const searchValue = this.value.toLowerCase().trim();
+    const rows = document.querySelectorAll("#reservationsTable tr");
+
+    rows.forEach(row => {
+        const rowText = row.textContent.toLowerCase();
+        row.style.display = rowText.includes(searchValue) ? "" : "none";
+    });
+});
+
+
+        loadReservations();
+    </script>
+
+</body>
+</html>
