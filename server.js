@@ -434,7 +434,12 @@ app.get("/admin.html", (req, res) => {
 
     res.setHeader("Cache-Control", "no-store");
 
-    res.sendFile(path.join(__dirname, "admin.html"));
+    const adminFilePath = path.resolve(
+    __dirname,
+    process.env.NETLIFY ? "../../admin.html" : "admin.html"
+);
+
+res.sendFile(adminFilePath);
 });
 
 // ======================================
