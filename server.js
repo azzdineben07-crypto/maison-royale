@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
@@ -434,10 +435,23 @@ app.get("/admin.html", (req, res) => {
 
     res.setHeader("Cache-Control", "no-store");
 
-    const adminFilePath = path.resolve(
-    __dirname,
-    process.env.NETLIFY ? "../../admin.html" : "admin.html"
-);
+    const adminFileCandidates = [
+        path.join(__dirname, "admin.html"),
+        path.resolve(__dirname, "../../admin.html"),
+        path.resolve(process.cwd(), "admin.html")
+    ];
+
+    const adminFilePath = adminFileCandidates.find(file =>
+        fs.existsSync(file)
+    );
+
+    if (!adminFilePath) {
+        console.error("Admin dashboard not found. Checked:", adminFileCandidates);
+        return res.status(500).send("Admin dashboard file not found.");
+    }
+
+    res.sendFile(adminFilePath);
+});
 
 res.sendFile(adminFilePath);
 });
