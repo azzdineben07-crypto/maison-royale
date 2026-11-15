@@ -726,17 +726,21 @@ app.put("/api/reservations/:id/status", requireAdmin, async (req, res) => {
 });
 
 // ======================================
-// 13. START SERVER
+// 13. EXPORT APP / LOCAL SERVER
 // ======================================
 
-initDatabase()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log("Maison Royale PostgreSQL connected!");
-            console.log(`Server running at http://localhost:${PORT}`);
+if (require.main === module) {
+    initDatabase()
+        .then(() => {
+            app.listen(PORT, () => {
+                console.log("Maison Royale PostgreSQL connected!");
+                console.log(`Server running at http://localhost:${PORT}`);
+            });
+        })
+        .catch((error) => {
+            console.error("Failed to initialize PostgreSQL:", error);
+            process.exit(1);
         });
-    })
-    .catch((error) => {
-        console.error("Failed to initialize PostgreSQL:", error);
-        process.exit(1);
-    });
+}
+
+module.exports = app;

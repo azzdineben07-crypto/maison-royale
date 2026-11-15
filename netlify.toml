@@ -1,0 +1,26 @@
+
+[build]
+  command = "npm install"
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/admin-login"
+  to = "/.netlify/functions/api/admin-login"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/admin.html"
+  to = "/.netlify/functions/api/admin.html"
+  status = 200
+  force = true
