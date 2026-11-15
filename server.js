@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -7,7 +8,7 @@ const nodemailer = require("nodemailer");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const db = require("./database");
+const { pool, initDatabase } = require("./database-pg");
 
 // ======================================
 // 1. SECURITY CONFIGURATION
@@ -451,7 +452,7 @@ app.get("/api/test", (req, res) => {
 // 9. CREATE RESERVATION - PUBLIC
 // ======================================
 
-app.post("/api/reservations", (req, res) => {
+app.post("/api/reservations", async (req, res) => {
     const { name, email, phone, date, time, guests } = req.body || {};
 
     if (!name || !email || !phone || !date || !time || !guests) {
@@ -496,25 +497,25 @@ app.post("/api/reservations", (req, res) => {
     }
 
     try {
-        const statement = db.prepare(`
-            INSERT INTO reservations
+        const result = await pool.query(
+            `INSERT INTO reservations
             (name, email, phone, date, time, guests)
-            VALUES (?, ?, ?, ?, ?, ?)
-        `);
-
-        const result = statement.run(
-            name.trim(),
-            email.trim(),
-            phone.trim(),
-            date,
-            time,
-            numberOfGuests
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING id`,
+            [
+                name.trim(),
+                email.trim(),
+                phone.trim(),
+                date,
+                time,
+                numberOfGuests
+            ]
         );
 
         res.status(201).json({
             success: true,
             message: "Réservation enregistrée avec succès !",
-            reservationId: Number(result.lastInsertRowid)
+            reservationId: Number(result.rows[0].id)
         });
 
     } catch (error) {
@@ -531,17 +532,17 @@ app.post("/api/reservations", (req, res) => {
 // 10. GET RESERVATIONS - ADMIN ONLY
 // ======================================
 
-app.get("/api/reservations", requireAdmin, (req, res) => {
+app.get("/api/reservations", requireAdmin, async (req, res) => {
     try {
-        const reservations = db.prepare(
+        const result = await pool.query(
             "SELECT * FROM reservations ORDER BY id DESC"
-        ).all();
+        );
 
         res.setHeader("Cache-Control", "no-store");
 
         res.json({
             success: true,
-            reservations
+            reservations: result.rows
         });
 
     } catch (error) {
@@ -558,7 +559,7 @@ app.get("/api/reservations", requireAdmin, (req, res) => {
 // 11. DELETE RESERVATION - ADMIN ONLY
 // ======================================
 
-app.delete("/api/reservations/:id", requireAdmin, (req, res) => {
+app.delete("/api/reservations/:id", requireAdmin, async (req, res) => {
     const id = Number(req.params.id);
 
     if (!Number.isInteger(id) || id <= 0) {
@@ -569,11 +570,12 @@ app.delete("/api/reservations/:id", requireAdmin, (req, res) => {
     }
 
     try {
-        const result = db.prepare(
-            "DELETE FROM reservations WHERE id = ?"
-        ).run(id);
+        const result = await pool.query(
+            "DELETE FROM reservations WHERE id = $1",
+            [id]
+        );
 
-        if (result.changes === 0) {
+        if (result.rowCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Réservation introuvable."
@@ -630,37 +632,31 @@ app.put("/api/reservations/:id/status", requireAdmin, async (req, res) => {
     }
 
     try {
-        const reservation = db.prepare(
-            "SELECT * FROM reservations WHERE id = ?"
-        ).get(id);
+        const found = await pool.query(
+            "SELECT * FROM reservations WHERE id = $1",
+            [id]
+        );
 
-        if (!reservation) {
+        if (found.rows.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Réservation introuvable."
             });
         }
 
+        const reservation = found.rows[0];
         const previousStatus = reservation.status;
 
-        db.prepare(
-            "UPDATE reservations SET status = ? WHERE id = ?"
-        ).run(status, id);
+        await pool.query(
+            "UPDATE reservations SET status = $1 WHERE id = $2",
+            [status, id]
+        );
 
         const shouldSendEmail =
             (status === "Confirmed" && previousStatus !== "Confirmed") ||
             (status === "Cancelled" && previousStatus !== "Cancelled");
 
-        if (shouldSendEmail) {
-            if (!transporter) {
-    console.log("Email skipped: Gmail is not configured.");
-
-    return res.json({
-        success: true,
-        emailSent: false,
-        message: "Statut mis à jour. Email désactivé sur ce serveur."
-    });
-}
+        if (shouldSendEmail && transporter) {
             try {
                 const isConfirmed = status === "Confirmed";
 
@@ -709,11 +705,13 @@ app.put("/api/reservations/:id/status", requireAdmin, async (req, res) => {
                     message: "Statut mis à jour, mais l'email n'a pas pu être envoyé."
                 });
             }
+        } else if (shouldSendEmail && !transporter) {
+            console.log("Email skipped: Gmail is not configured.");
         }
 
         res.json({
             success: true,
-            emailSent: shouldSendEmail,
+            emailSent: shouldSendEmail && !!transporter,
             message: "Statut mis à jour !"
         });
 
@@ -731,7 +729,14 @@ app.put("/api/reservations/:id/status", requireAdmin, async (req, res) => {
 // 13. START SERVER
 // ======================================
 
-app.listen(PORT, () => {
-    console.log("Maison Royale Database connected!");
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+initDatabase()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log("Maison Royale PostgreSQL connected!");
+            console.log(`Server running at http://localhost:${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error("Failed to initialize PostgreSQL:", error);
+        process.exit(1);
+    });
