@@ -453,8 +453,7 @@ app.get("/admin.html", (req, res) => {
     res.sendFile(adminFilePath);
 });
 
-res.sendFile(adminFilePath);
-});
+
 
 // ======================================
 // 8. TEST API
